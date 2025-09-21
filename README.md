@@ -1,31 +1,40 @@
-# Telegram Mini App Template
+---
 
-![Mini App Screenshot](https://via.placeholder.com/600x300.png?text=Mini+App+Screenshot)
+## Features
 
-A **ready-to-use Telegram Mini App template** that can be deployed immediately via GitHub Pages. It displays a simple message and a button to interact with users.
+- Displays “Hello from your bot!” message
+- Interactive button to send user info to the bot
+- Fully HTTPS-ready and deployable via GitHub Pages
+- Lightweight and easy to customize
 
 ---
 
-## Table of Contents
+## Usage
 
-- [Demo](#demo)  
-- [Folder Structure](#folder-structure)  
-- [Installation](#installation)  
-- [Usage](#usage)  
-- [Deployment](#deployment)  
-- [Features](#features)  
-- [Next Steps](#next-steps)  
-
----
-
-## Demo
-
-Once deployed, your mini app will look like this:  
-
-![Button Demo](https://via.placeholder.com/400x200.png?text=Click+Button+Demo)  
-
-Clicking the **Say Hi** button displays a simple greeting message.
+1. Deploy the mini app via **GitHub Pages**:
+   - Push your files to a **public GitHub repository**
+   - Go to **Settings → Pages** → Branch: `main` → Folder: `/ (root)` → Save
+2. Copy the GitHub Pages URL (e.g., `https://yourusername.github.io/telegram-mini-app/`)
+3. Use this URL in **BotFather** → `/setwebapp` for your bot
+4. Open the mini app in Telegram and click **Send Info to Bot** to test
 
 ---
 
-## Folder Structure
+## Bot-side Example (Python / Pyrogram)
+
+```python
+from pyrogram import Client, filters
+
+app = Client("my_bot")
+
+@app.on_message(filters.command("start") & filters.private)
+async def start(client, message):
+    # Check if user sent Web App data
+    if message.web_app_data:
+        data = message.web_app_data.data
+        print(f"Received Web App data: {data}")
+        await message.reply_text(f"Thanks! Received your info: {data}")
+    else:
+        await message.reply_text("Hello! Open the mini app to send your info.")
+
+app.run()
